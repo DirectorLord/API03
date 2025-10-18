@@ -28,5 +28,9 @@ internal class Repository<TEntity, TKey>(ApplicationDbContext context)
     {
         return await context.Set<TEntity>().ApplySpecification(specification).ToListAsync(cancellationToken);
     }
-    
+
+    public async Task<TEntity?> GetAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
+    {
+        return await context.Set<TEntity>().ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
+    }
 }
