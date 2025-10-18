@@ -1,0 +1,28 @@
+﻿
+
+namespace E_Commerce.Persistence.Repositories;
+
+internal class Repository<TEntity, TKey>(ApplicationDbContext context)
+    : IRepository<TEntity, TKey>
+     where TEntity : Entity<TKey>
+{
+    public void Add(TEntity entity)
+    => context.Set<TEntity>().Add(entity);
+
+    public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await context.Set<TEntity>().ToListAsync(cancellationToken);
+    }
+
+    public async Task<TEntity?> GetByIdAsync(TKey id, CancellationToken cancellationToken = default)
+    {
+        return await context.Set<TEntity>().FindAsync(id, cancellationToken);
+    }
+
+    public void Remove(TEntity entity)
+    => context.Set<TEntity>().Remove(entity);
+
+    public void Update(TEntity entity)
+    =>  context.Set<TEntity>().Update(entity);
+    
+}
