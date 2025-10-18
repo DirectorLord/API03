@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Domain.Entities;
+using E_Commerce.Persistence.Repositories;
 
 namespace E_Commerce.Domain.Contracts;
 
@@ -10,4 +11,5 @@ public interface IRepository<TEntity, TKey>
     void Update(TEntity entity);
     Task<TEntity?> GetByIdAsync(TKey id, CancellationToken cancellationToken = default);
     Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<TEntity>> GetAllAsync(ISpecification<TEntity> specification,CancellationToken cancellationToken = default);
 }

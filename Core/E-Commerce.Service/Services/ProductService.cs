@@ -1,4 +1,6 @@
-﻿namespace E_Commerce.Service.Services;
+﻿using E_Commerce.Service.Specifications;
+
+namespace E_Commerce.Service.Services;
 
 internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper)
     : IProductService
@@ -17,7 +19,8 @@ internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper)
 
     public async Task<IEnumerable<ProductResponse>> GetProductsAsync(CancellationToken cancellationToken = default)
     {
-        var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync(cancellationToken);
+        var spec = new ProductWithBrandTypeSpecification();
+        var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync(spec, cancellationToken);
         return mapper.Map<IEnumerable<ProductResponse>>(products);
     }
 
