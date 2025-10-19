@@ -33,4 +33,9 @@ internal class Repository<TEntity, TKey>(ApplicationDbContext context)
     {
         return await context.Set<TEntity>().ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
     }
+
+    public Task<int> CountAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
+    {
+        return context.Set<TEntity>().ApplySpecification(specification).CountAsync(cancellationToken);
+    }
 }
