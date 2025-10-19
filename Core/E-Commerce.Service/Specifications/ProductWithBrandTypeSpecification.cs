@@ -9,6 +9,29 @@ internal class ProductWithBrandTypeSpecification : BaseSpecification<Product>
     {
         AddInclude(p => p.ProductsType);
         AddInclude(p => p.ProductBrand);
+        Sort(parameters);
+    }
+
+    private void Sort(ProductQueryParameters parameters)
+    {
+        switch (parameters.Sort)
+        {
+            case ProductSortingOptions.NameAsc:
+                AddOrderBy(p => p.Name);
+                break;
+            case ProductSortingOptions.NameDesc:
+                AddOrderByDesc(p => p.Name);
+                break;
+            case ProductSortingOptions.PriceAsc:
+                AddOrderBy(p => p.Price);
+                break;
+            case ProductSortingOptions.PriceDesc:
+                AddOrderByDesc(p => p.Name);
+                break;
+            default:
+                AddOrderBy(p => p.Name);
+                break;
+        }
     }
 
     private static Expression<Func<Product, bool>> CreateCriteria(ProductQueryParameters parameters)

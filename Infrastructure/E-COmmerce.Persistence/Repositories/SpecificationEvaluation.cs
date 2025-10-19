@@ -6,14 +6,21 @@ internal static class SpecificationEvaluation
         where TEntity : class
     {
         var query = inputQuery;
-        if(specification.Criteria is not null)
-        {
-             query = query.Where(specification.Criteria);
-        }
         foreach (var include in specification.Includes)
         {
             query = query.Include(include);
         }
-        return query;
+
+        if(specification.Criteria is not null)
+        {
+             query = query.Where(specification.Criteria);
+        }
+
+        if(specification.OrderBy is not null)
+             query = query.OrderBy(specification.OrderBy);
+        else if(specification.OrderByDesc is not null)
+            query = query.OrderByDescending(specification.OrderByDesc);
+
+            return query;
     }
 }
