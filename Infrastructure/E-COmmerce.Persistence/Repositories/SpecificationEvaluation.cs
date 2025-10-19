@@ -21,6 +21,8 @@ internal static class SpecificationEvaluation
         else if(specification.OrderByDesc is not null)
             query = query.OrderByDescending(specification.OrderByDesc);
 
+        if(specification.IsPaginated)
+            query = query.Skip(specification.Skip).Take(specification.Take);
             return query;
     }
 }
