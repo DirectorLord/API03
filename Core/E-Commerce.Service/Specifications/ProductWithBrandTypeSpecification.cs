@@ -14,7 +14,8 @@ internal class ProductWithBrandTypeSpecification : BaseSpecification<Product>
     private static Expression<Func<Product, bool>> CreateCriteria(ProductQueryParameters parameters)
     {
         return p => (!parameters.BrandId.HasValue || p.ProductBrandId == parameters.BrandId.Value) &&
-        (!parameters.TypeId.HasValue || p.ProductsTypeId == parameters.TypeId.Value);
+        (!parameters.TypeId.HasValue || p.ProductsTypeId == parameters.TypeId.Value)
+        && (string.IsNullOrWhiteSpace(parameters.Search) ||p.Name.Contains(parameters.Search));
     }
 
     public ProductWithBrandTypeSpecification(int id)
