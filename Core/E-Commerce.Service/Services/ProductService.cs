@@ -17,9 +17,9 @@ internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper)
         return mapper.Map<ProductResponse>(product);
     }
 
-    public async Task<IEnumerable<ProductResponse>> GetProductsAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<ProductResponse>> GetProductsAsync(ProductQueryParameters parameters, CancellationToken cancellationToken = default)
     {
-        var spec = new ProductWithBrandTypeSpecification();
+        var spec = new ProductWithBrandTypeSpecification(parameters);
         var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync(spec, cancellationToken);
         return mapper.Map<IEnumerable<ProductResponse>>(products);
     }
